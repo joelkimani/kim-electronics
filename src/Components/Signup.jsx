@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff, Key, User, Mail, Phone, AlertCircle, CheckCircle, Spinner } from "lucide-react";
+import { Eye, EyeOff, Key, User, Mail, Phone, AlertCircle, CheckCircle, } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -13,7 +13,7 @@ const Signup = () => {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState('');
-  
+
   // State for password visibility toggle
   const [showPassword, setShowPassword] = useState(false);
 
@@ -28,23 +28,23 @@ const Signup = () => {
     const lower = "abcdefghijklmnopqrstuvwxyz";
     const numbers = "0123456789";
     // const symbols = "!@#$%^&*()_+[]{}|;:,.<>?";
-  
-    const all = upper + lower + numbers; 
+
+    const all = upper + lower + numbers;
     // + symbols;
-  
+
     let password = "";
-    
+
     // Ensure at least one character from each category for strength
     password += upper[Math.floor(Math.random() * upper.length)];
     password += lower[Math.floor(Math.random() * lower.length)];
     password += numbers[Math.floor(Math.random() * numbers.length)];
     // password += symbols[Math.floor(Math.random() * symbols.length)];
-  
+
     // Fill the remaining length with random characters
     for (let i = password.length; i < length; i++) {
       password += all[Math.floor(Math.random() * all.length)];
     }
-  
+
     // Shuffle the characters to avoid predictable patterns
     return password
       .split('')
@@ -58,7 +58,7 @@ const Signup = () => {
    */
   const submit = async (e) => {
     e.preventDefault();
-    
+
     // Clear previous messages
     setSuccess('');
     setError('');
@@ -68,13 +68,13 @@ const Signup = () => {
       // Step 1: Check if user already exists to prevent duplicates
       // Note: This would normally use axios.post() in your actual app
       console.log("Checking user availability...", { username, email, phone });
-      
+
       // Simulate API response for demo
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Step 2: Proceed with user registration
       setLoading("Creating your account...");
-      
+
       // Simulate registration API call
       console.log("Registering user...", { username, email, phone, password });
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -82,13 +82,13 @@ const Signup = () => {
       // Handle successful registration
       setLoading("");
       setSuccess("Account created successfully! Welcome aboard!");
-      
+
       // Clear form on success (optional)
       setUsername('');
       setEmail('');
       setPhone('');
       setPassword('');
-      
+
     } catch (error) {
       // Handle registration errors
       setLoading("");
@@ -106,10 +106,10 @@ const Signup = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-6 col-lg-5">
-            
+
             {/* Header Section */}
             <div className="text-center mb-5">
-              <div 
+              <div
                 className="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
                 style={{
                   width: '64px',
@@ -124,7 +124,7 @@ const Signup = () => {
             </div>
 
             {/* Main Form Card */}
-            <div 
+            <div
               className="card shadow-lg border-0"
               style={{
                 borderRadius: '1rem',
@@ -132,12 +132,12 @@ const Signup = () => {
               }}
             >
               <div className="card-body p-5">
-                
+
                 {/* Status Messages */}
                 {loading && (
                   <div className="alert alert-info d-flex align-items-center mb-4" role="alert">
-                    <div 
-                      className="spinner-border spinner-border-sm me-3" 
+                    <div
+                      className="spinner-border spinner-border-sm me-3"
                       role="status"
                       style={{ width: '1.25rem', height: '1.25rem' }}
                     >
@@ -146,14 +146,14 @@ const Signup = () => {
                     <span>{loading}</span>
                   </div>
                 )}
-                
+
                 {success && (
                   <div className="alert alert-success d-flex align-items-center mb-4" role="alert">
                     <CheckCircle size={20} className="me-3" />
                     <span>{success}</span>
                   </div>
                 )}
-                
+
                 {error && (
                   <div className="alert alert-danger d-flex align-items-center mb-4" role="alert">
                     <AlertCircle size={20} className="me-3" />
@@ -163,7 +163,7 @@ const Signup = () => {
 
                 {/* Registration Form */}
                 <div onSubmit={submit}>
-                  
+
                   {/* Username Field */}
                   <div className="mb-4">
                     <label htmlFor="username" className="form-label fw-medium">
@@ -173,12 +173,12 @@ const Signup = () => {
                       <span className="input-group-text bg-light border-end-0">
                         <User size={20} className="text-muted" />
                       </span>
-                      <input 
+                      <input
                         type="text"
                         id="username"
                         className="form-control border-start-0 ps-0"
                         placeholder="Choose a username"
-                        onChange={(e) => setUsername(e.target.value)} 
+                        onChange={(e) => setUsername(e.target.value)}
                         value={username}
                         required
                         style={{ fontSize: '1rem', padding: '0.75rem 1rem' }}
@@ -195,13 +195,13 @@ const Signup = () => {
                       <span className="input-group-text bg-light border-end-0">
                         <Mail size={20} className="text-muted" />
                       </span>
-                      <input 
+                      <input
                         type="email"
                         id="email"
                         className="form-control border-start-0 ps-0"
                         placeholder="Enter your email"
-                        onChange={(e) => setEmail(e.target.value)} 
-                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                         required
                         style={{ fontSize: '1rem', padding: '0.75rem 1rem' }}
                       />
@@ -217,13 +217,13 @@ const Signup = () => {
                       <span className="input-group-text bg-light border-end-0">
                         <Phone size={20} className="text-muted" />
                       </span>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         id="phone"
                         className="form-control border-start-0 ps-0"
                         placeholder="Enter phone number"
-                        onChange={(e) => setPhone(e.target.value)} 
-                        value={phone} 
+                        onChange={(e) => setPhone(e.target.value)}
+                        value={phone}
                         required
                         style={{ fontSize: '1rem', padding: '0.75rem 1rem' }}
                       />
@@ -239,17 +239,17 @@ const Signup = () => {
                       <span className="input-group-text bg-light border-end-0">
                         <Key size={20} className="text-muted" />
                       </span>
-                      <input 
+                      <input
                         type={showPassword ? "text" : "password"}
                         id="password"
                         className="form-control border-start-0 border-end-0 ps-0"
                         placeholder="Create a password"
-                        onChange={(e) => setPassword(e.target.value)} 
-                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                         required
                         style={{ fontSize: '1rem', padding: '0.75rem 1rem' }}
                       />
-                      
+
                       {/* Password visibility toggle */}
                       <button
                         type="button"
@@ -260,7 +260,7 @@ const Signup = () => {
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
                     </div>
-                    
+
                     {/* Password generation button */}
                     <button
                       type="button"
@@ -274,8 +274,8 @@ const Signup = () => {
 
                   {/* Submit Button */}
                   <div className="d-grid gap-2 mb-4">
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       onClick={submit}
                       disabled={loading}
                       className="btn btn-primary btn-lg"
@@ -287,8 +287,8 @@ const Signup = () => {
                     >
                       {loading ? (
                         <div className="d-flex align-items-center justify-content-center">
-                          <div 
-                            className="spinner-border spinner-border-sm me-2" 
+                          <div
+                            className="spinner-border spinner-border-sm me-2"
                             role="status"
                             style={{ width: '1.25rem', height: '1.25rem' }}
                           >
@@ -307,16 +307,16 @@ const Signup = () => {
                 <div className="text-center">
                   <p className="text-muted mb-0">
                     Already have an account?{' '}
-                    <button 
+                    <button
                       onClick={() => console.log('Navigate to signin')}
                       className="btn btn-link p-0 text-decoration-none fw-medium"
-                      style={{ 
+                      style={{
                         color: '#1976d2',
                         verticalAlign: 'baseline'
                       }}
                     >
-                      <Link to ="/signin"> Sign in here</Link>
-                     
+                      <Link to="/signin"> Sign in here</Link>
+
                     </button>
                   </p>
                 </div>

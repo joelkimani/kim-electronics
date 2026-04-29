@@ -2,29 +2,29 @@
 import axios from "axios";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
 
 const Makepayment = () => {
     // Extract product data from router state (passed from previous page)
     const { product } = useLocation().state || {};
-    
+
     // State variables for payment method selection
     const [paymentMethod, setPaymentMethod] = useState("mpesa");
-    
+
     // M-Pesa form states
     const [phone, setPhone] = useState("");
-    
+
     // Card payment form states
     const [cardNumber, setCardNumber] = useState("");
     const [expiryDate, setExpiryDate] = useState("");
     const [cvv, setCvv] = useState("");
     const [cardName, setCardName] = useState("");
-    
+
     // Common UI states
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
-    
+
     const navigate = useNavigate();
 
     /**
@@ -35,7 +35,7 @@ const Makepayment = () => {
      */
     const validateAndFormatPhone = (phoneNumber) => {
         let cleanedPhone = phoneNumber.trim();
-        
+
         // Convert 07XXXXXXXXX to 2547XXXXXXX OR 01XXXXXXX to 2541XXXXXXXX
         if (/^0(7|1)\d{8}$/.test(cleanedPhone)) {
             cleanedPhone = '254' + cleanedPhone.substring(1);
@@ -43,7 +43,7 @@ const Makepayment = () => {
 
         // Validate that it now starts with 2547 or 2541 and has 12 digits
         const isValid = /^254(7|1)\d{8}$/.test(cleanedPhone);
-        
+
         return {
             isValid,
             formattedPhone: cleanedPhone
@@ -83,23 +83,23 @@ const Makepayment = () => {
     const validateCardNumber = (cardNumber) => {
         const cleanNumber = cardNumber.replace(/\s/g, '');
         if (!/^\d{13,19}$/.test(cleanNumber)) return false;
-        
+
         // Luhn algorithm
         let sum = 0;
         let isEven = false;
-        
+
         for (let i = cleanNumber.length - 1; i >= 0; i--) {
             let digit = parseInt(cleanNumber[i]);
-            
+
             if (isEven) {
                 digit *= 2;
                 if (digit > 9) digit -= 9;
             }
-            
+
             sum += digit;
             isEven = !isEven;
         }
-        
+
         return sum % 10 === 0;
     };
 
@@ -109,7 +109,7 @@ const Makepayment = () => {
     const processMpesaPayment = async () => {
         // Validate and format phone number
         const { isValid, formattedPhone } = validateAndFormatPhone(phone);
-        
+
         if (!isValid) {
             setMessage("Invalid phone number. Please use format 07XXXXXXXX or 2547XXXXXXXX");
             return false;
@@ -127,14 +127,14 @@ const Makepayment = () => {
                 "https://joemwangi.pythonanywhere.com/api/mpesa_payment",
                 data
             );
-            
+
             setMessage(response.data.message);
             return true;
-            
+
         } catch (error) {
             setMessage(
-                error.response?.data?.message || 
-                error.message || 
+                error.response?.data?.message ||
+                error.message ||
                 "M-Pesa payment failed. Please try again."
             );
             return false;
@@ -153,7 +153,7 @@ const Makepayment = () => {
 
         const cleanCardNumber = cardNumber.replace(/\s/g, '');
         const [month, year] = expiryDate.split('/');
-        
+
         if (!month || !year || month < 1 || month > 12) {
             setMessage("Invalid expiry date. Please use MM/YY format.");
             return false;
@@ -180,14 +180,14 @@ const Makepayment = () => {
                 "https://joemwangi.pythonanywhere.com/api/card_payment",
                 data
             );
-            
+
             setMessage(response.data.message);
             return true;
-            
+
         } catch (error) {
             setMessage(
-                error.response?.data?.message || 
-                error.message || 
+                error.response?.data?.message ||
+                error.message ||
                 "Card payment failed. Please try again."
             );
             return false;
@@ -200,7 +200,7 @@ const Makepayment = () => {
      */
     const submit = async (e) => {
         e.preventDefault();
-        
+
         // Reset states
         setMessage("");
         setLoading(true);
@@ -209,7 +209,7 @@ const Makepayment = () => {
         setMessage("Please wait as we process your payment...");
 
         let success = false;
-        
+
         // Process payment based on selected method
         if (paymentMethod === "mpesa") {
             success = await processMpesaPayment();
@@ -220,7 +220,7 @@ const Makepayment = () => {
         if (success) {
             setPaymentSuccess(true);
         }
-        
+
         setLoading(false);
     };
 
@@ -261,13 +261,13 @@ const Makepayment = () => {
     if (!product) {
         return (
             <div className="min-vh-100 bg-light">
-                
+
                 <div className="container mt-5">
                     <div className="alert alert-warning text-center">
                         <h4>No Product Selected</h4>
                         <p>Please select a product to make payment.</p>
-                        <button 
-                            className="btn btn-primary" 
+                        <button
+                            className="btn btn-primary"
                             onClick={() => navigate('/')}
                         >
                             Go to Products
@@ -280,8 +280,8 @@ const Makepayment = () => {
 
     return (
         <div className="min-vh-100 bg-light">
-            
-            
+
+
             <div className="container py-5">
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-8 col-lg-6">
@@ -301,7 +301,7 @@ const Makepayment = () => {
                                     <i className="bi bi-bag me-2"></i>
                                     Order Summary
                                 </h5>
-                                
+
                                 <div className="row align-items-center">
                                     {/* Product Image */}
                                     <div className="col-md-4 text-center mb-3 mb-md-0">
@@ -315,7 +315,7 @@ const Makepayment = () => {
                                             }}
                                         />
                                     </div>
-                                    
+
                                     {/* Product Details */}
                                     <div className="col-md-8">
                                         <h6 className="fw-bold mb-2">{product.product_name}</h6>
@@ -337,11 +337,11 @@ const Makepayment = () => {
                                     <i className="bi bi-wallet2 me-2"></i>
                                     Payment Method
                                 </h5>
-                                
+
                                 <div className="row g-3">
                                     {/* M-Pesa Option */}
                                     <div className="col-md-6">
-                                        <div 
+                                        <div
                                             className={`card h-100 cursor-pointer border-2 ${paymentMethod === 'mpesa' ? 'border-success bg-light' : 'border-light'}`}
                                             onClick={() => setPaymentMethod('mpesa')}
                                             style={{ cursor: 'pointer' }}
@@ -356,10 +356,10 @@ const Makepayment = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     {/* Card Option */}
                                     <div className="col-md-6">
-                                        <div 
+                                        <div
                                             className={`card h-100 cursor-pointer border-2 ${paymentMethod === 'card' ? 'border-primary bg-light' : 'border-light'}`}
                                             onClick={() => setPaymentMethod('card')}
                                             style={{ cursor: 'pointer' }}
@@ -414,13 +414,13 @@ const Makepayment = () => {
                                                     <span className="input-group-text bg-success text-white">
                                                         <i className="bi bi-phone"></i>
                                                     </span>
-                                                    <input 
-                                                        type="tel" 
+                                                    <input
+                                                        type="tel"
                                                         id="phone"
-                                                        placeholder="07XXXXXXXX or 2547XXXXXXXX" 
-                                                        className="form-control" 
-                                                        value={phone} 
-                                                        onChange={(e) => setPhone(e.target.value)} 
+                                                        placeholder="07XXXXXXXX or 2547XXXXXXXX"
+                                                        className="form-control"
+                                                        value={phone}
+                                                        onChange={(e) => setPhone(e.target.value)}
                                                         required
                                                         disabled={loading}
                                                         pattern="^(07|01|2547|2541)\d{8}$"
@@ -461,12 +461,12 @@ const Makepayment = () => {
                                                     <span className="input-group-text bg-primary text-white">
                                                         <i className="bi bi-credit-card"></i>
                                                     </span>
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         id="cardNumber"
-                                                        placeholder="1234 5678 9012 3456" 
-                                                        className="form-control" 
-                                                        value={cardNumber} 
+                                                        placeholder="1234 5678 9012 3456"
+                                                        className="form-control"
+                                                        value={cardNumber}
                                                         onChange={handleCardNumberChange}
                                                         required
                                                         disabled={loading}
@@ -480,12 +480,12 @@ const Makepayment = () => {
                                                     <i className="bi bi-person me-2"></i>
                                                     Cardholder Name
                                                 </label>
-                                                <input 
-                                                    type="text" 
+                                                <input
+                                                    type="text"
                                                     id="cardName"
-                                                    placeholder="John Doe" 
-                                                    className="form-control" 
-                                                    value={cardName} 
+                                                    placeholder="John Doe"
+                                                    className="form-control"
+                                                    value={cardName}
                                                     onChange={(e) => setCardName(e.target.value.toUpperCase())}
                                                     required
                                                     disabled={loading}
@@ -499,12 +499,12 @@ const Makepayment = () => {
                                                         <i className="bi bi-calendar me-2"></i>
                                                         Expiry Date
                                                     </label>
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         id="expiryDate"
-                                                        placeholder="MM/YY" 
-                                                        className="form-control" 
-                                                        value={expiryDate} 
+                                                        placeholder="MM/YY"
+                                                        className="form-control"
+                                                        value={expiryDate}
                                                         onChange={handleExpiryChange}
                                                         required
                                                         disabled={loading}
@@ -515,12 +515,12 @@ const Makepayment = () => {
                                                         <i className="bi bi-shield-lock me-2"></i>
                                                         CVV
                                                     </label>
-                                                    <input 
-                                                        type="text" 
+                                                    <input
+                                                        type="text"
                                                         id="cvv"
-                                                        placeholder="123" 
-                                                        className="form-control" 
-                                                        value={cvv} 
+                                                        placeholder="123"
+                                                        className="form-control"
+                                                        value={cvv}
                                                         onChange={handleCvvChange}
                                                         required
                                                         disabled={loading}
@@ -545,7 +545,7 @@ const Makepayment = () => {
                                     )}
 
                                     {/* Submit Button */}
-                                    <button 
+                                    <button
                                         className={`btn btn-lg w-100 py-3 fw-bold ${paymentMethod === 'mpesa' ? 'btn-success' : 'btn-primary'}`}
                                         type="submit"
                                         disabled={loading || (paymentMethod === 'mpesa' && !phone.trim()) || (paymentMethod === 'card' && (!cardNumber || !cardName || !expiryDate || !cvv))}
@@ -560,7 +560,7 @@ const Makepayment = () => {
                                         ) : (
                                             <>
                                                 <i className={`bi ${paymentMethod === 'mpesa' ? 'bi-phone' : 'bi-credit-card'} me-2`}></i>
-                                                Pay KSh {parseInt(product.product_cost).toLocaleString()} 
+                                                Pay KSh {parseInt(product.product_cost).toLocaleString()}
                                                 {paymentMethod === 'mpesa' ? ' via M-Pesa' : ' via Card'}
                                             </>
                                         )}
@@ -579,7 +579,7 @@ const Makepayment = () => {
 
                         {/* Back Button */}
                         <div className="text-center mt-4">
-                            <button 
+                            <button
                                 className="btn btn-outline-secondary"
                                 onClick={() => navigate(-1)}
                                 disabled={loading}

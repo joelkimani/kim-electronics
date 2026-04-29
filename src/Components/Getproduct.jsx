@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios"; // Make sure this is imported
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { Link } from "react-router-dom";
-import { Carousel } from "bootstrap/dist/js/bootstrap.bundle.min";
+// import { Link } from "react-router-dom";
+// import { Carousel } from "bootstrap/dist/js/bootstrap.bundle.min";
 import Footer from "./Footer";
-import { hover } from "@testing-library/user-event/dist/hover";
+// import { hover } from "@testing-library/user-event/dist/hover";
 
 const GetProducts = () => {
     // ================= STATE MANAGEMENT =================
@@ -61,7 +61,7 @@ const GetProducts = () => {
      */
     const handleSortChange = (value) => {
         setSortOrder(value);
-        
+
         if (!value) {
             // Reset to original order by re-fetching
             fetchProducts();
@@ -73,7 +73,7 @@ const GetProducts = () => {
             if (value === "high") return b.product_cost - a.product_cost;
             return 0;
         });
-        
+
         setProducts(sortedProducts);
     };
 
@@ -81,11 +81,11 @@ const GetProducts = () => {
      * Handles purchase button click
      * In actual implementation, this would navigate to payment page
      */
-    const handlePurchase = (product) => {
-        console.log("Purchase clicked for:", product.product_name);
-        alert(`Redirecting to payment for ${product.product_name}`);
-        // Original: navigate('/makepayment', { state: { product } });
-    };
+    // const handlePurchase = (product) => {
+    //     console.log("Purchase clicked for:", product.product_name);
+    //     alert(`Redirecting to payment for ${product.product_name}`);
+    //     // Original: navigate('/makepayment', { state: { product } });
+    // };
 
     /**
      * Loads more products by increasing visible count
@@ -150,8 +150,8 @@ const GetProducts = () => {
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             {/* Mock Navbar */}
-           <Navbar/>
-            
+            <Navbar />
+
             {/* Hero Header Section */}
             <header style={styles.heroHeader}>
                 <div className="container">
@@ -168,7 +168,7 @@ const GetProducts = () => {
             {/* <div>
             <Carousel/>
             </div> */}
-           
+
             {/* Main Content Container */}
             <div className="container" style={{ flexGrow: 1 }}>
                 {/* Products Section Header */}
@@ -178,7 +178,7 @@ const GetProducts = () => {
                             <i className="fas fa-laptop me-2"></i>
                             Premium Laptops Collection
                         </h2>
-                        
+
                         {/* Search and Filter Controls */}
                         <div className="row g-3 align-items-center justify-content-between mb-4">
                             {/* Search Input */}
@@ -195,7 +195,7 @@ const GetProducts = () => {
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
                                     {searchTerm && (
-                                        <button 
+                                        <button
                                             className="btn btn-outline-secondary"
                                             onClick={clearSearch}
                                             title="Clear search"
@@ -244,7 +244,7 @@ const GetProducts = () => {
                     <div className="alert alert-danger text-center my-4" role="alert">
                         <span className="me-2">⚠️</span>
                         {error}
-                        <button 
+                        <button
                             className="btn btn-outline-danger btn-sm ms-3"
                             onClick={fetchProducts}
                         >
@@ -272,8 +272,8 @@ const GetProducts = () => {
                 {visibleProducts.length > 0 && (
                     <div className="row g-4 mb-5">
                         {visibleProducts.map((product, index) => (
-                            <div 
-                                key={product.id || index} 
+                            <div
+                                key={product.id || index}
                                 className="col-lg-4 col-md-6 col-sm-12"
                             >
                                 {/* Product Card */}
@@ -281,7 +281,7 @@ const GetProducts = () => {
                                     {/* Product Image */}
                                     <div className="position-relative overflow-hidden">
                                         <img
-                                           src={`${IMG_BASE_URL}${product.product_photo}`}
+                                            src={`${IMG_BASE_URL}${product.product_photo}`}
 
                                             className="card-img-top"
                                             alt={product.product_name}
@@ -305,8 +305,8 @@ const GetProducts = () => {
 
                                         {/* Product Description */}
                                         <p className="card-text text-muted mb-3 flex-grow-1">
-                                            {product.product_description?.length > 80 
-                                                ? `${product.product_description.slice(0, 80)}...` 
+                                            {product.product_description?.length > 80
+                                                ? `${product.product_description.slice(0, 80)}...`
                                                 : product.product_description
                                             }
                                         </p>
@@ -326,8 +326,8 @@ const GetProducts = () => {
                                             {/* Purchase Button */}
                                             <button
                                                 className="btn btn-primary  purchase-button w-100 fw-bold py-2"
-                                                onClick={()=> navigate('/makepayment',{state:{product}})}
-                                                // style={styles.purchaseButton}
+                                                onClick={() => navigate('/makepayment', { state: { product } })}
+                                            // style={styles.purchaseButton}
                                             >
                                                 <span className="me-2">🛒</span>
                                                 Purchase Now
@@ -343,7 +343,7 @@ const GetProducts = () => {
                 {/* Load More Button */}
                 {hasMoreProducts && (
                     <div className="text-center mb-5">
-                        <button 
+                        <button
                             className="btn btn-outline-primary btn-lg px-4 py-2"
                             onClick={loadMoreProducts}
                         >
@@ -357,8 +357,8 @@ const GetProducts = () => {
                 )}
             </div>
 
-{/* footer */}
-                <Footer/>
+            {/* footer */}
+            <Footer />
         </div>
     );
 };

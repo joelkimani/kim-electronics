@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,7 +7,7 @@ import Signup from './Components/Signup';
 import Signin from './Components/Signin';
 import Addproducts from './Components/Addproduct';
 import Getproducts from './Components/Getproduct';
-import Navbar from './Components/Navbar';
+// import Navbar from './Components/Navbar';
 import Notfound from './Components/NotFound';
 import Makepayment from './Components/Makepayment';
 

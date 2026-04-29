@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ const Addproducts = () => {
       // ✅ Include token in headers if needed
       const token = JSON.parse(localStorage.getItem("user"))?.token;
 
-      const response = await axios.post(
+      await axios.post(
         "https://joemwangi.pythonanywhere.com/api/add_product",
         data,
         {
