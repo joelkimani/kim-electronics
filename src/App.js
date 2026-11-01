@@ -10,8 +10,10 @@ import Getproducts from './Components/Getproduct';
 // import Navbar from './Components/Navbar';
 import Notfound from './Components/NotFound';
 import Makepayment from './Components/Makepayment';
-
-
+import Privacy from './Components/Privacy';
+import Terms from './Components/Terms';
+import Return from './Components/Return';
+import Help from './Components/Help';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import RequireAuth from './Components/RequireAuth';
 
@@ -27,6 +29,10 @@ function App() {
         <Route path='/signup'element ={<Signup/>}/>
         <Route path='/signin' element ={<Signin/>}/>
         <Route path='*' element={<Notfound/>} />
+        <Route path='/returns' element={<Return/>}/>
+        <Route path='/privacy' element={<Privacy/>}/>
+        <Route path='/terms' element={<Terms/>}/>
+        <Route path='/help' element={<Help/>}/>
         <Route path='/addproduct'element ={
         <RequireAuth>
         <Addproducts/>
